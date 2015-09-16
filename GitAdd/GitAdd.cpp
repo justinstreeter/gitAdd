@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream> 
 
 using namespace std;
 
@@ -13,17 +14,24 @@ int main()
 	//init vars
 	string folderAdd;
 	string repoName;
-	string commitmsg;
+	char commitmsg[256];
 	string repoloca;
 	string readMe;
 	char newReadMe;
 	int numOfFiles;
 	vector<string> filearray;
+	
+
+
+	cout << "Enter commit message: \n";
+	//cin >> commitmsg;	
+	cin.get(commitmsg, 256);
+	cout << endl;
 
 
 	// ask for folder location
 
-	cout << "were would u like the repository located:  " << endl;
+	cout << "were would u like the repository located:  \n" << endl;
 	cin >> folderAdd;
 	// collect folder location
 
@@ -34,7 +42,7 @@ int main()
 
 	// ask for name of repository
 
-	cout << "what is the name of the repository" << endl;
+	cout << "what is the name of the repository: \n" << endl;
 	cin >> repoName;
 	// get name of repository
 
@@ -44,38 +52,38 @@ int main()
 
 
 
-	cout << "enter number of files to commit" << endl;
+	cout << "enter number of files to commit: \n" << endl;
 
 	cin >> numOfFiles;
 
 
 	for (int i = 0; i < numOfFiles; i++) {
 		string filesAdd;
-		cout << "Enter name of file to commit" << endl;
+		cout << "Enter name of file to commit: \n" << endl;
 		cin >> filesAdd;
 		filearray.push_back(filesAdd);
 	}
 
 
 	
-	cout << "Enter commit message" << endl;
-	cin >> commitmsg;
-	//getline(cin, commitmsg);
+	//cout << "Enter commit message: \n";
+	//cin >> commitmsg;	
+	//cin.get(commitmsg, 256);
 	//cout << endl;
 
-	cout << "Create repository on GitHub" << endl;
+	cout << "Create repository on GitHub! \n" << endl;
 
-	cout << "Copy and paste git link here: " << endl;
+	cout << "Copy and paste git link here: \n" << endl;
 	cin >> repoloca;
 	//getline(cin, repoloca);
 	//cout << endl;
 
-	cout << "do u need a README enter Y for yes and N for no" << endl;
+	cout << "do u need a README enter Y for yes and N for no: \n" << endl;
 	cin >> newReadMe;
 
 	// display results for copy and paste
 	if (newReadMe = 'Y') {
-		cout << "Enter message for README" << endl;
+		cout << "Enter message for README: \n" << endl;
 		cin >> readMe;
 		//getline(cin, readMe);
 		//cout << endl;
@@ -98,6 +106,9 @@ int main()
 
 		cout << "git push origin master" << endl;
 
+		cin.get();
+		
+		return 0;
 
 	}
 	else if (newReadMe = 'N') {
@@ -113,13 +124,16 @@ int main()
 			cout << "git add " << filearray[j] << "/n";
 		}
 
-		cout << "git commit -m" << "\"" << commitmsg << "\"" << endl;
+		printf ("git commit -m"  "\"""%s\n"  "\"",commitmsg );
 
 		cout << "git remote add origin " << repoloca << endl;
 
 		cout << "git push origin master" << endl;
+		
+		cin.get();
+		
+		return 0;
 	}
 
 
-	return 0;
 }
