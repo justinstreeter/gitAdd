@@ -20,7 +20,7 @@ int main()
 	char newReadMe;
 	int numOfFiles;
 	vector<string> filearray;
-	
+	ofstream myfile("C:\\Users\\Justin\\Desktop\\example.txt");
 
 
 	cout << "Enter commit message: \n";
@@ -78,11 +78,7 @@ int main()
 	//getline(cin, repoloca);
 	//cout << endl;
 
-	cout << "do u need a README enter Y for yes and N for no: \n" << endl;
-	cin >> newReadMe;
-
-	// display results for copy and paste
-	if (newReadMe = 'Y') {
+	
 		cout << "Enter message for README: \n" << endl;
 		cin >> readMe;
 		//getline(cin, readMe);
@@ -95,8 +91,8 @@ int main()
 		cout << "git init " << repoName << endl;
 
 		cout << "echo \"" << readMe << "\" >> README.md" << endl;
-
-		for (int j = 0; j< numOfFiles; j++) {
+		int j;
+		for (j = 0; j< numOfFiles; j++) {
 			cout << "git add " << filearray[j] << endl;
 		}
 
@@ -106,34 +102,30 @@ int main()
 
 		cout << "git push origin master" << endl;
 
-		cin.get();
-		
-		return 0;
 
-	}
-	else if (newReadMe = 'N') {
+		if (myfile.is_open()) {
+
+			myfile << "cd " << folderAdd << "\n";
+			myfile << "git init " << repoName << "\n";
+			myfile << "echo \"" << readMe << "\" >> README.md \n";
+			//myfile << "git add " << filearray[j] << "\n";
+			myfile << "git commit -m" << "\"" << commitmsg << "\"";
+			myfile << "git remote add origin " << repoloca << "\n";
+			myfile << "git push origin master";
 
 
-		cout << "---------------------------" << endl;
-
-		cout << "cd " << folderAdd << endl;
-
-		cout << "git init " << repoName << endl;
-
-		for (int j = 0; j< numOfFiles; j++) {
-			cout << "git add " << filearray[j] << "/n";
+			myfile.close();
 		}
+		else {
 
-		printf ("git commit -m"  "\"""%s\n"  "\"",commitmsg );
+			cout << "unable to open file;";
 
-		cout << "git remote add origin " << repoloca << endl;
 
-		cout << "git push origin master" << endl;
-		
-		cin.get();
-		
-		return 0;
-	}
 
+
+			return 0;
+
+		}
+	
 
 }
