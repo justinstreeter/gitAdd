@@ -6,8 +6,17 @@
 #include <string>
 #include <vector>
 #include <fstream> 
-
+#include <conio.h>
+#include <stdio.h>
+#include <cstdlib>
+#include <Windows.h> // use < > for all system and library headers
+#include <winuser.h>
+#include <cmath>
+#include <complex>
+#include <iomanip>
 using namespace std;
+
+void toClipboard(HWND hwnd, const std::string &s);
 
 int main()
 {
@@ -21,7 +30,7 @@ int main()
 	int numOfFiles;
 	vector<string> filearray;
 	ofstream myfile("C:\\Users\\Justin\\Desktop\\example.txt");
-
+	string AAA();
 
 	cout << "Enter commit message: \n";
 	//cin >> commitmsg;	
@@ -104,12 +113,16 @@ int main()
 
 
 		if (myfile.is_open()) {
-
+			
 			myfile << "cd " << folderAdd << "\n";
 			myfile << "git init " << repoName << "\n";
 			myfile << "echo \"" << readMe << "\" >> README.md \n";
-			//myfile << "git add " << filearray[j] << "\n";
-			myfile << "git commit -m" << "\"" << commitmsg << "\"";
+			int j;
+			for (j = 0; j< numOfFiles; j++) {
+				myfile << "git add " << filearray[j]<<"\n";
+			}
+
+			myfile << "git commit -m" << "\"" << commitmsg << "\""<<"\n";
 			myfile << "git remote add origin " << repoloca << "\n";
 			myfile << "git push origin master";
 
@@ -126,6 +139,40 @@ int main()
 			return 0;
 
 		}
-	
+		
+ 
+		
+		 cin >> AAA;
+		cout << endl;
+		cout << endl;
+		cout << "This has been copied to the clipboard: ";
+		cout << AAA << endl;
+		// 1. strlen takes a const char*, so have to call the strings c_str() method
+		// (but it would be better to use len = AAA.length() instead)
+		size_t len = strlen(AAA.c_str());
+		cout << len << " char(s)" << endl;
+		// get desktop windows and the call toClipboard
+		HWND hwnd = GetDesktopWindow();
+		toClipboard(hwnd, AAA);
+		cin.clear();
+		cin.ignore(255, '\n');
+		cin.get();
 
+		return 0;
+}
+
+// 2. declare functions at file scope 
+void toClipboard(HWND hwnd, const std::string &s) {
+	OpenClipboard(hwnd);
+	EmptyClipboard();
+	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, s.size() + 1);
+	if (!hg) {
+		CloseClipboard();
+		return;
+	}
+	memcpy(GlobalLock(hg), s.c_str(), s.size() + 1);
+	GlobalUnlock(hg);
+	SetClipboardData(CF_TEXT, hg);
+	CloseClipboard();
+	GlobalFree(hg);
 }
